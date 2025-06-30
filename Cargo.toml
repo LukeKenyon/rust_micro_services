@@ -1,0 +1,2 @@
+[workspace]
+members = ["authentication_api", "customer_api"]
