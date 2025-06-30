@@ -16,6 +16,7 @@ pub struct Address {
     pub updated_at: DateTime,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct NewAddressRequest {
     pub street: String,
     pub city: String,

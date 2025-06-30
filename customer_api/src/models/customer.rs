@@ -17,6 +17,7 @@ pub struct Customer {
     pub updated_at: DateTime,
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct NewCustomerRequest {
     pub name: String,
     pub primary_phone: String,

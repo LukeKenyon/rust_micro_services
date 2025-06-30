@@ -15,6 +15,7 @@ pub mod models {
     pub mod customer;
 }
 pub mod services {
+    pub mod certification;
     pub mod customer;
 }
 
