@@ -1,4 +1,5 @@
 use crate::models::address::Address;
+use crate::models::contact::Contact;
 use crate::models::customer::{Customer, NewCustomerRequest};
 use crate::services::customer::CustomerService;
 use mongodb::bson::{DateTime, Document};
@@ -39,6 +40,24 @@ impl CustomerHandler {
                 addresses.push(address);
                 let mut update_doc = Document::new();
                 update_doc.insert("addresses", mongodb::bson::to_bson(&addresses).unwrap());
+                update_doc.insert("updated_at", DateTime::now());
+
+                match self.customer_service.update_customer(id, update_doc).await {
+                    Ok(customer) => Ok(customer),
+                    Err(err) => Err(err.to_string()),
+                }
+            }
+            Err(err) => Err(err.to_string()),
+        }
+    }
+
+    pub async fn add_contact(&self, id: &str, contact: Contact) -> Result<Customer, String> {
+        match self.customer_service.get_customer(id).await {
+            Ok(mut customer) => {
+                let mut contacts = customer.contacts;
+                contacts.push(contact);
+                let mut update_doc = Document::new();
+                update_doc.insert("contacts", mongodb::bson::to_bson(&contacts).unwrap());
                 update_doc.insert("updated_at", DateTime::now());
 
                 match self.customer_service.update_customer(id, update_doc).await {

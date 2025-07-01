@@ -10,20 +10,22 @@ pub struct Contact {
     pub name: String,
     pub email: String,
     pub phone: String,
+    pub mobile: String,
     pub created_at: DateTime,
     pub updated_at: DateTime,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct ContactRequest {
+pub struct NewContactRequest {
     pub title: String,
     pub name: String,
     pub email: String,
     pub phone: String,
+    pub mobile: String,
 }
 
 impl Contact {
-    pub fn create_new(request: ContactRequest) -> Self {
+    pub fn create_new(request: NewContactRequest) -> Self {
         let now = DateTime::now();
         Contact {
             id: Some(ObjectId::new()),
@@ -31,6 +33,7 @@ impl Contact {
             name: request.name,
             email: request.email,
             phone: request.phone,
+            mobile: request.mobile,
             created_at: now,
             updated_at: now,
         }

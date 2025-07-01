@@ -13,10 +13,12 @@ pub mod models {
     pub mod address;
     pub mod contact;
     pub mod customer;
+    pub mod messages;
 }
 pub mod services {
     pub mod certification;
     pub mod customer;
+    pub mod messaging;
 }
 
 pub mod handlers {

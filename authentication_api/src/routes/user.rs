@@ -10,7 +10,7 @@ async fn register_user(
     new_user: web::Json<NewUserRequest>,
 ) -> impl Responder {
     match user_handler.create_user(new_user.into_inner()).await {
-        Ok(user_response) => HttpResponse::Ok().json(user_response),
+        Ok(handler_response) => HttpResponse::Ok().json(handler_response),
         Err(err_msg) => HttpResponse::InternalServerError().body(err_msg),
     }
 }
@@ -28,7 +28,7 @@ async fn get_user(
     // Validate token scope and token
     match cert_handler.has_scope(token, "user:read") {
         Ok(()) => match user_handler.find_user_by_id(id_ref).await {
-            Ok(user_response) => Ok(HttpResponse::Ok().json(user_response)),
+            Ok(handler_response) => Ok(HttpResponse::Ok().json(handler_response)),
             Err(err_msg) => Ok(HttpResponse::InternalServerError().body(err_msg)),
         },
         Err(resp) => Ok(resp),

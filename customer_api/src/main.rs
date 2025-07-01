@@ -2,7 +2,7 @@ use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer, web};
 
 use customer_api::handlers::customer::CustomerHandler;
-use customer_api::routes::customer::{create_address, create_customer};
+use customer_api::routes::customer::{add_address, add_contact, create_customer};
 use customer_api::services::certification::CertificateService;
 
 #[actix_web::main]
@@ -22,7 +22,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(customer_data.clone())
             .app_data(cert_service.clone())
             .service(create_customer)
-            .service(create_address)
+            .service(add_address)
+            .service(add_contact)
     })
     .bind("127.0.0.1:8090")?
     .run()
