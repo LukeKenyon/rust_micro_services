@@ -1,14 +1,15 @@
 use actix_web::middleware::Logger;
 use actix_web::{App, HttpServer, web};
-
 use customer_api::handlers::customer::CustomerHandler;
 use customer_api::routes::customer::{add_address, add_contact, create_customer};
 use customer_api::services::certification::CertificateService;
+use log::info;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
 
+    info!("Starting Customer API...");
     let customer_handler = CustomerHandler::new().await;
     let cert_handler = CertificateService::new("RSAKeyStore/public_key.pem")
         .expect("Failed to create CertificateService");

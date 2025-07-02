@@ -1,4 +1,5 @@
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Header, Validation, decode, encode};
+use log::info;
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -41,6 +42,7 @@ impl CertificateService {
     /// Checks if a JWT token is valid and has a specific scope, extension
     /// to ensure the token is valid and has the required scope.
     pub fn has_scope(&self, token: &str, required_scope: &str) -> Result<(), HttpResponse> {
+        info!("Calling to Verify Scope");
         match self.verify_token(token) {
             Ok(claims) => {
                 if claims.scopes.contains(&required_scope.to_string()) {

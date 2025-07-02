@@ -6,6 +6,8 @@ use actix_web::{Error, HttpResponse, Responder, get, post, web};
 use actix_web_httpauth::extractors::bearer::BearerAuth;
 use axum::middleware::IntoMapRequestResult;
 
+use log::info;
+
 #[post("/customer/create")]
 async fn create_customer(
     customer_handler: web::Data<CustomerHandler>,
