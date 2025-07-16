@@ -7,3 +7,5 @@
 
 
 ### MongoDb is used with MongoDb free Clustered Account.
+
+### EGUI_Main, client application sample using Rsut and EGUI to make a sample test login using Authentication API,to get token and then transistion toHome Screen.
