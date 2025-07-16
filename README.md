@@ -1,5 +1,5 @@
 ## Rust Learning Project.
-### This is a learning project for using Rust and Actix-Web to create a series of microservices.
+### This is a learning project for using Rust and Actix-Web to create a series of microservices. Also using Rust EGUI for client interface.
 
 
 ### Authentication API, this handles user account creation and authentication.
