@@ -1,0 +1,16 @@
+[package]
+name = "egui_main"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+broadcast = "0.1.0"
+dirs = "6.0.0"
+eframe = "0.31.1"
+egui = "0.31.1"
+reqwest = { version = "0.12.22", features = ["json"] }
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+tokio = { version = "1.46.1", features = ["full"] }
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3.19", features = ["fmt"] }
