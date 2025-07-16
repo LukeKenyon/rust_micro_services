@@ -18,7 +18,11 @@ pub mod models {
 pub mod services {
     pub mod certification;
     pub mod customer;
-    pub mod messaging;
+}
+
+pub mod messaging {
+    pub mod connection;
+    pub mod publisher;
 }
 
 pub mod handlers {

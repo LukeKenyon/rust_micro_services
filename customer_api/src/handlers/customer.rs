@@ -3,7 +3,6 @@ use crate::models::contact::Contact;
 use crate::models::customer::{Customer, NewCustomerRequest};
 use crate::models::messages::CustomerCreated;
 use crate::services::customer::CustomerService;
-use crate::services::messaging::publish_customer_created;
 use mongodb::bson::{DateTime, Document};
 
 pub struct CustomerHandler {
@@ -22,16 +21,9 @@ impl CustomerHandler {
         customer_request: NewCustomerRequest,
     ) -> Result<Customer, String> {
         let new_customer = Customer::create_new(customer_request);
+        // Remove clone; instead, use a reference or move if possible
         match self.customer_service.create_customer(new_customer).await {
-            Ok(customer) => {
-                // You may need to construct CustomerCreated differently if needed
-                let created_msg = CustomerCreated {
-                    id: "QW1234567QW".to_string(),
-                    name: "Luke Test".to_string(),
-                };
-                publish_customer_created(created_msg).await;
-                Ok(customer)
-            }
+            Ok(customer) => Ok(customer),
             Err(err) => Err(err.to_string()),
         }
     }

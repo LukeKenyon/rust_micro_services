@@ -1,4 +1,4 @@
 [workspace]
-members = ["authentication_api", "customer_api", "orders_api"]
+members = ["authentication_api", "customer_api", "orders_api", "egui_main"]
 
 resolver = "2"

@@ -1,3 +1,4 @@
+use crate::models::customer::Customer;
 use crate::models::messages::CustomerCreated;
 use lapin::options::ExchangeDeclareOptions;
 use lapin::{
@@ -11,7 +12,7 @@ use tokio_amqp::*;
 
 async fn create_msg_connection() -> Result<Connection, lapin::Error> {
     let connection_url = std::env::var("RABBITMQ_URL")
-        .unwrap_or_else(|_| "amqp://rabbitmq:rabbitmq@localhost:5672/%2f".to_string());
+        .unwrap_or_else(|_| "amqp://guest:guest@localhost:5672/%2f".to_string());
 
     let connection_properties = ConnectionProperties::default()
         .with_executor(tokio_executor_trait::Tokio::current())
@@ -22,7 +23,7 @@ async fn create_msg_connection() -> Result<Connection, lapin::Error> {
     Ok(connection)
 }
 
-async fn create_channel() -> Result<Channel, lapin::Error> {
+pub async fn create_channel() -> Result<Channel, lapin::Error> {
     match create_msg_connection().await {
         Ok(connection) => {
             info!("Creating channel");
@@ -33,7 +34,7 @@ async fn create_channel() -> Result<Channel, lapin::Error> {
     }
 }
 
-async fn declare_exchange(channel: &Channel, name: &str, kind: ExchangeKind) {
+pub async fn declare_exchange(channel: &Channel, name: &str, kind: ExchangeKind) {
     channel
         .exchange_declare(
             name,
@@ -49,24 +50,4 @@ async fn declare_exchange(channel: &Channel, name: &str, kind: ExchangeKind) {
         )
         .await
         .expect("Failed to declare exchange");
-}
-
-pub async fn publish_customer_created(customer: CustomerCreated) {
-    let payload = serde_json::to_vec(&customer).unwrap();
-    info!("Publishing customer created message");
-    if let Ok(channel) = create_channel().await {
-        declare_exchange(&channel, "customer_exchange", ExchangeKind::Direct).await;
-        channel
-            .basic_publish(
-                "customer_exchange", // exchange name
-                "customer.created",  // routing key
-                BasicPublishOptions::default(),
-                &payload,
-                BasicProperties::default(),
-            )
-            .await
-            .unwrap()
-            .await
-            .unwrap();
-    }
 }
